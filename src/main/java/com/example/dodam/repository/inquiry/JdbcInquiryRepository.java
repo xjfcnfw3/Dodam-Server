@@ -1,10 +1,8 @@
 package com.example.dodam.repository.inquiry;
 
-import com.example.dodam.config.auth.PrincipalDetails;
+import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.inquiry.Inquiry;
 //import org.springframework.beans.factory.annotation.Autowired;
-import com.example.dodam.domain.user.User;
-import com.example.dodam.repository.inquiry.InquiryRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -63,8 +61,8 @@ public class JdbcInquiryRepository implements InquiryRepository {
             inquiry.setImgPath("/files/" + fileName);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        inquiry.setUserId(principalDetails.getUser().getId());
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        inquiry.setUserId(memberDetails.getUser().getId());
         inquiry.setCreateAt(LocalDateTime.now());
         inquiry.setUpdateAt(LocalDateTime.now());
         SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);
@@ -88,8 +86,8 @@ public class JdbcInquiryRepository implements InquiryRepository {
     @Override
     public List<Inquiry> findAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Long userId = principalDetails.getUser().getId();
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        Long userId = memberDetails.getUser().getId();
         return jdbcTemplate.query("select * from inquiry where userId = ?", inquiryRowmapper(), userId);
     }
 

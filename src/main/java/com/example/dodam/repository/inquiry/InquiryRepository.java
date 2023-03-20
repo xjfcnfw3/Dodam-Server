@@ -1,7 +1,6 @@
 package com.example.dodam.repository.inquiry;
 
 import com.example.dodam.domain.inquiry.Inquiry;
-import com.example.dodam.domain.user.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 

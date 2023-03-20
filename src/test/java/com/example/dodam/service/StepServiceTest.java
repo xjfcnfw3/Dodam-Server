@@ -1,6 +1,6 @@
 package com.example.dodam.service;
 
-import com.example.dodam.domain.user.User;
+import com.example.dodam.domain.member.Member;
 import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
@@ -133,24 +133,24 @@ class StepServiceTest {
 
     @Test
     @DisplayName("단계등록Get Test")
-    public void getStepEnrollTest(User user){
+    public void getStepEnrollTest(Member member){
         //given
         createEx();
 
         //when
-        StepEnrollDto stepEnrollDto =  stepService.getStepEnroll(user);
+        StepEnrollDto stepEnrollDto =  stepService.getStepEnroll(member);
 
         //then
         System.out.println("stepEnrollDto.toString() = " + stepEnrollDto.toString());
     }
 
     @Test
-    public void getMainStepTest(User user){
+    public void getMainStepTest(Member member){
         //given
         createEx();
 
         //when
-        StepMainDto stepMainDto = stepService.getMainStep(user);
+        StepMainDto stepMainDto = stepService.getMainStep(member);
         
         //then
         System.out.println("stepRepository.findAll() = " + stepRepository.findAll());

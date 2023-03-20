@@ -3,7 +3,7 @@ package com.example.dodam.config;
 
 import com.example.dodam.config.jwt.JwtAuthenticationFilter;
 import com.example.dodam.config.jwt.JwtAuthorizationFilter;
-import com.example.dodam.repository.user.UserRepository;
+import com.example.dodam.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{	
 	
 	@Autowired
-	private UserRepository userRepository;
+	private MemberRepository memberRepository;
 	
 	@Autowired
 	private CorsConfig corsConfig;
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.httpBasic().disable()
 				// 필터 추가
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
-				.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+				.addFilter(new JwtAuthorizationFilter(authenticationManager(), memberRepository))
 				// 권한 관리
 				.authorizeRequests()
 				.antMatchers("/diary/**")

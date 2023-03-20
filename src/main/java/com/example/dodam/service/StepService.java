@@ -1,22 +1,20 @@
 package com.example.dodam.service;
 
-import com.example.dodam.domain.user.User;
+import com.example.dodam.domain.member.Member;
 import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
 import com.example.dodam.dto.StepSelectDto;
 import com.example.dodam.domain.Step;
 import com.example.dodam.repository.StepRepository;
-import com.example.dodam.repository.user.UserRepository;
+import com.example.dodam.repository.member.MemberRepository;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +25,17 @@ import java.util.List;
 public class StepService {
 
     private final StepRepository stepRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public StepMainDto getMainStep(User user) {
+    public StepMainDto getMainStep(Member member) {
         LocalDate now = LocalDate.now();
         int dDay;
-        if(user.getStartDate()!= null)
-            dDay= (int) ChronoUnit.DAYS.between(LocalDate.from(user.getStartDate()),now);
+        if(member.getStartDate()!= null)
+            dDay= (int) ChronoUnit.DAYS.between(LocalDate.from(member.getStartDate()),now);
         else
             dDay = 0;
 
-        List<Step> stepAll = stepRepository.findAllByUserId(user.getId());
+        List<Step> stepAll = stepRepository.findAllByUserId(member.getId());
         List<String> nowStep = new ArrayList<>();
 
         for (Step step : stepAll) {
@@ -49,15 +47,15 @@ public class StepService {
                 .allStep(stepAll)
                 .nowStep(nowStep)
                 .dDay(dDay)
-                .memberNickName(user.getNickname()).build();
+                .memberNickName(member.getNickname()).build();
 
     }
 
-    public StepEnrollDto getStepEnroll(User user) {
+    public StepEnrollDto getStepEnroll(Member member) {
         LocalDate startDate = null;
-        if(user.getStartDate()!= null)
-            startDate = LocalDate.from(user.getStartDate());
-        List<Step> stepAll = stepRepository.findAllByUserId(user.getId());
+        if(member.getStartDate()!= null)
+            startDate = LocalDate.from(member.getStartDate());
+        List<Step> stepAll = stepRepository.findAllByUserId(member.getId());
 
         return StepEnrollDto.builder()
                 .startDate(startDate)
@@ -91,9 +89,9 @@ public class StepService {
 
     public int addStep(Long userId, StepAddDto dto) {
         Long order = stepRepository.countStepByUserId(userId);
-        User user = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        if (user.getStartDate() == null) {
-            userRepository.update(userId, User.builder().startDate(LocalDateTime.now()).build());
+        Member member = memberRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+        if (member.getStartDate() == null) {
+            memberRepository.update(userId, Member.builder().startDate(LocalDateTime.now()).build());
         }
         Step step = Step.builder()
                 .userId(userId)
@@ -106,6 +104,6 @@ public class StepService {
     }
 
     public void setStartDate(LocalDateTime startDate, Long userId) {
-        userRepository.updateStartDate(userId, startDate);
+        memberRepository.updateStartDate(userId, startDate);
     }
 }

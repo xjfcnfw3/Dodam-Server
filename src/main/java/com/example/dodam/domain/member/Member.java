@@ -1,4 +1,4 @@
-package com.example.dodam.domain.user;
+package com.example.dodam.domain.member;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Member {
     private Long id;
     private String email;
     private String password;

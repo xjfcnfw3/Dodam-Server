@@ -1,6 +1,5 @@
 package com.example.dodam.service.inquiry;
 
-import com.example.dodam.domain.user.User;
 import com.example.dodam.dto.InquiriesDto;
 import com.example.dodam.dto.InquiryDto;
 import com.example.dodam.domain.inquiry.Inquiry;

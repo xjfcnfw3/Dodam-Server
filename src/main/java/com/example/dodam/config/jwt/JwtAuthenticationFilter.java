@@ -2,7 +2,7 @@ package com.example.dodam.config.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.dodam.config.auth.PrincipalDetails;
+import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.login.LoginRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		Authentication authentication = 
 				authenticationManager.authenticate(authenticationToken);
 		
-		PrincipalDetails principalDetailis = (PrincipalDetails) authentication.getPrincipal();
+		MemberDetails principalDetailis = (MemberDetails) authentication.getPrincipal();
 		System.out.println("Authentication : "+principalDetailis.getUser().getEmail());
 		return authentication;
 	}
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		
-		PrincipalDetails principalDetailis = (PrincipalDetails) authResult.getPrincipal();
+		MemberDetails principalDetailis = (MemberDetails) authResult.getPrincipal();
 		
 		String jwtToken = JWT.create()
 				.withSubject(principalDetailis.getUsername())

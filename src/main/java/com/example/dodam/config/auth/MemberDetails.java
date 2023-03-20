@@ -1,32 +1,38 @@
 package com.example.dodam.config.auth;
 
-import com.example.dodam.domain.user.User;
+import com.example.dodam.domain.member.Member;
+import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class PrincipalDetails implements UserDetails{
+public class MemberDetails implements UserDetails{
 
-	private User user;
+	private Member member;
 
-    public PrincipalDetails(User user){
-        this.user = user;
+    public MemberDetails(Member member){
+        this.member = member;
     }
 
-    public User getUser() {
-		return user;
+    public Member getUser() {
+		return member;
 	}
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return member.getEmail();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        return Collections.singleton(new SimpleGrantedAuthority(member.getRole()));
     }
 
     @Override
@@ -47,12 +53,5 @@ public class PrincipalDetails implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
-    }
-    
-	@Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(()->{ return user.getRole();});
-        return authorities;
     }
 }

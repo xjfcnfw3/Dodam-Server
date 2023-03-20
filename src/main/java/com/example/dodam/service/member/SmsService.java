@@ -1,4 +1,4 @@
-package com.example.dodam.service.user;
+package com.example.dodam.service.member;
 
 import com.example.dodam.domain.sms.dto.SmsMessage;
 import com.example.dodam.domain.sms.dto.SmsRequest;

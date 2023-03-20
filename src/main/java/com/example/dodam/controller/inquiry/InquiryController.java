@@ -1,7 +1,6 @@
 package com.example.dodam.controller.inquiry;
 
 import com.example.dodam.domain.inquiry.Inquiry;
-import com.example.dodam.domain.user.User;
 import com.example.dodam.service.inquiry.InquiryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

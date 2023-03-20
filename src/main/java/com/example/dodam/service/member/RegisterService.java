@@ -1,10 +1,10 @@
-package com.example.dodam.service.user;
+package com.example.dodam.service.member;
 
 import com.example.dodam.common.exception.RegisterException;
 import com.example.dodam.common.exception.ErrorCode;
-import com.example.dodam.domain.user.RegisterRequest;
-import com.example.dodam.domain.user.User;
-import com.example.dodam.repository.user.UserRepository;
+import com.example.dodam.domain.member.RegisterRequest;
+import com.example.dodam.domain.member.Member;
+import com.example.dodam.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RegisterService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public User register(RegisterRequest registerRequest) {
+    public Member register(RegisterRequest registerRequest) {
         validateRegisterRequest(registerRequest);
-        User user = extractUser(registerRequest);
-        log.debug("user = {}", user);
-        return userRepository.save(user);
+        Member member = extractUser(registerRequest);
+        log.debug("user = {}", member);
+        return memberRepository.save(member);
     }
 
     public void checkDuplicateEmail(String email) {
@@ -37,21 +37,21 @@ public class RegisterService {
     }
 
     private void validateDuplicateEmail(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (memberRepository.findByEmail(email).isPresent()) {
             throw new RegisterException(ErrorCode.DUPLICATED_EMAIL);
         }
     }
 
     private void validateDuplicateNickName(String nickname) {
-        if (userRepository.findByNickName(nickname).isPresent()) {
+        if (memberRepository.findByNickName(nickname).isPresent()) {
             throw new RegisterException(ErrorCode.DUPLICATED_NICKNAME);
         }
     }
 
-    private User extractUser(RegisterRequest request) {
-        User user = request.toUser();
-        user.setRole("ROLE_USER");
-        user.setStatus("A");
-        return user;
+    private Member extractUser(RegisterRequest request) {
+        Member member = request.toUser();
+        member.setRole("ROLE_USER");
+        member.setStatus("A");
+        return member;
     }
 }

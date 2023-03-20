@@ -1,7 +1,7 @@
 package com.example.dodam.controller;
 
-import com.example.dodam.config.auth.PrincipalDetails;
-import com.example.dodam.domain.user.User;
+import com.example.dodam.config.auth.MemberDetails;
+import com.example.dodam.domain.member.Member;
 import com.example.dodam.dto.*;
 import com.example.dodam.domain.Step;
 import com.example.dodam.service.StepService;
@@ -26,28 +26,28 @@ public class StepController {
 
     @GetMapping("/main")
     public StepMainDto main(Authentication authentication) {
-        User user = getPrincipalUser(authentication);
-        return stepService.getMainStep(user);
+        Member member = getPrincipalUser(authentication);
+        return stepService.getMainStep(member);
     }
 
     @GetMapping("/enroll")
     public StepEnrollDto getStepEnroll(Authentication authentication) {
-        User user = getPrincipalUser(authentication);
-        return stepService.getStepEnroll(user);
+        Member member = getPrincipalUser(authentication);
+        return stepService.getStepEnroll(member);
     }
 
     @PutMapping("/enroll")
     public @ResponseBody ResponseEntity<Object> changeOrder(@RequestBody StepChangeOrderDto dto,Authentication authentication){
-        User user = getPrincipalUser(authentication);
-        Long userId = user.getId();
+        Member member = getPrincipalUser(authentication);
+        Long userId = member.getId();
         stepService.changeOrder(userId, dto.getFirstOrder(), dto.getSecondOrder());
         return new ResponseEntity<>(Map.of("result", "순서 변경 성공"), HttpStatus.OK);
     }
 
     @PutMapping("/startDate/{startDate}")
     public @ResponseBody ResponseEntity<Object> setStartDate(@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, Authentication authentication){
-        User user = getPrincipalUser(authentication);
-        stepService.setStartDate(startDate.atStartOfDay(),user.getId());
+        Member member = getPrincipalUser(authentication);
+        stepService.setStartDate(startDate.atStartOfDay(), member.getId());
         return new ResponseEntity<>(Map.of("result", "시작 날짜 설정 성공"), HttpStatus.OK);
     }
 
@@ -70,14 +70,14 @@ public class StepController {
 
     @PostMapping("")
     public @ResponseBody ResponseEntity<Object> add(@RequestBody StepAddDto dto,Authentication authentication){
-        User user = getPrincipalUser(authentication);
-        Long userId = user.getId();
+        Member member = getPrincipalUser(authentication);
+        Long userId = member.getId();
         stepService.addStep(userId, dto);
         return new ResponseEntity<>(Map.of("result", "단계 생성 성공"), HttpStatus.CREATED);
     }
 
-    private User getPrincipalUser(Authentication authentication) {
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+    private Member getPrincipalUser(Authentication authentication) {
+        MemberDetails principal = (MemberDetails) authentication.getPrincipal();
         return principal.getUser();
     }
 }

@@ -2,7 +2,7 @@ package com.example.dodam.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.dodam.domain.user.UpdateUserRequest;
+import com.example.dodam.domain.member.UpdateMemberRequest;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,8 +16,8 @@ class QueryGeneratorTest {
     @DisplayName("When various elements are entered, sql is created dynamically")
     @MethodSource("generateUpdateQueryTestArguments")
     @ParameterizedTest
-    void generateUpdateQuery(String sql, UpdateUserRequest userDto) {
-        QueryGenerator<UpdateUserRequest> generator = new QueryGenerator<>(userDto);
+    void generateUpdateQuery(String sql, UpdateMemberRequest userDto) {
+        QueryGenerator<UpdateMemberRequest> generator = new QueryGenerator<>(userDto);
         String generatedSql = generator.generateDynamicUpdateQuery("user", "where id = :id");
         assertThat(sql).isEqualTo(generatedSql);
     }
@@ -28,7 +28,7 @@ class QueryGeneratorTest {
             Arguments.arguments(
                 "UPDATE user SET password=:password, phone=:phone, nickname=:nickname, "
                     + "status=:status, role=:role where id = :id",
-                UpdateUserRequest.builder().nickname("test").role("ROLE_USER")
+                UpdateMemberRequest.builder().nickname("test").role("ROLE_USER")
                     .phone("01000000000").password("123").status("A").build()
             )
         );

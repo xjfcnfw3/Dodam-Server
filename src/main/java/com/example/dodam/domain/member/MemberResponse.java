@@ -1,4 +1,4 @@
-package com.example.dodam.domain.user;
+package com.example.dodam.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class MemberResponse {
 
     private String email;
     private String phone;
@@ -24,14 +24,14 @@ public class UserResponse {
     private LocalDate birthDate;
     private String imgPath;
 
-    public static UserResponse of(User user) {
-        return UserResponse.builder()
-            .email(user.getEmail())
-            .phone(user.getPhone())
-            .nickname(user.getNickname())
-            .startDate(user.getStartDate())
-            .birthDate(user.getBirthDate())
-            .imgPath(user.getImgPath())
+    public static MemberResponse of(Member member) {
+        return MemberResponse.builder()
+            .email(member.getEmail())
+            .phone(member.getPhone())
+            .nickname(member.getNickname())
+            .startDate(member.getStartDate())
+            .birthDate(member.getBirthDate())
+            .imgPath(member.getImgPath())
             .build();
     }
 }

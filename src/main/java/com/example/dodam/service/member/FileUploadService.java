@@ -1,4 +1,4 @@
-package com.example.dodam.service.user;
+package com.example.dodam.service.member;
 
 import java.io.File;
 import java.io.IOException;

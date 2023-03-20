@@ -1,6 +1,6 @@
-package com.example.dodam.repository.user;
+package com.example.dodam.repository.member;
 
-import com.example.dodam.domain.user.User;
+import com.example.dodam.domain.member.Member;
 
 import com.example.dodam.utils.QueryGenerator;
 
@@ -25,13 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Repository
-public class JdbcUserRepository implements UserRepository {
+public class JdbcMemberRepository implements MemberRepository {
     private static final String TABLE = "USER";
 
     private final NamedParameterJdbcTemplate template;
     private final SimpleJdbcInsert jdbcInsert;
 
-    public JdbcUserRepository(DataSource dataSource) {
+    public JdbcMemberRepository(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName(TABLE)
@@ -42,33 +42,33 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     @Transactional
-    public User save(User user) {
-        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
-        log.debug("user={}", user);
+    public Member save(Member member) {
+        SqlParameterSource param = new BeanPropertySqlParameterSource(member);
+        log.debug("user={}", member);
         Number key = jdbcInsert.executeAndReturnKey(param);
-        user.setId(key.longValue());
-        return user;
+        member.setId(key.longValue());
+        return member;
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<Member> findByEmail(String email) {
         String sql = "select * from user where email = :email";
         try {
             Map<String, Object> param = Map.of("email", email);
-            User user = template.queryForObject(sql, param, userRowMapper());
-            return Optional.ofNullable(user);
+            Member member = template.queryForObject(sql, param, userRowMapper());
+            return Optional.ofNullable(member);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<User> findByUsername(String email) {    // 이거 수정해야함
+    public Optional<Member> findByUsername(String email) {    // 이거 수정해야함
         String sql = "select * from user where email = :email";
         try {
             Map<String, Object> param = Map.of("email", email);
-            User user = template.queryForObject(sql, param, userRowMapper());
-            return Optional.ofNullable(user);
+            Member member = template.queryForObject(sql, param, userRowMapper());
+            return Optional.ofNullable(member);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -85,36 +85,36 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     @Transactional
-    public User update(Long id, User user) {
-        user.setUpdateAt(LocalDateTime.now());
-        QueryGenerator<User> generator = new QueryGenerator<>(user);
+    public Member update(Long id, Member member) {
+        member.setUpdateAt(LocalDateTime.now());
+        QueryGenerator<Member> generator = new QueryGenerator<>(member);
         String sql = generator.generateDynamicUpdateQuery(TABLE, "where id = :id");
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValues(generator.generateParams()).addValues(Map.of("id", id));
         log.debug("sql={}, params={}", sql, param);
         template.update(sql, param);
-        return user;
+        return member;
     }
 
     @Override
-    public Optional<User> findByNickName(String nickname) {
+    public Optional<Member> findByNickName(String nickname) {
         String sql = "select * from user where nickname = :nickname";
         try {
             Map<String, Object> param = Map.of("nickname", nickname);
-            User user = template.queryForObject(sql, param, userRowMapper());
-            return Optional.ofNullable(user);
+            Member member = template.queryForObject(sql, param, userRowMapper());
+            return Optional.ofNullable(member);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<Member> findById(Long id) {
         String sql = "select * from user where id = :id";
         try {
             Map<String, Object> param = Map.of("id", id);
-            User user = template.queryForObject(sql, param, userRowMapper());
-            return Optional.ofNullable(user);
+            Member member = template.queryForObject(sql, param, userRowMapper());
+            return Optional.ofNullable(member);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -136,8 +136,8 @@ public class JdbcUserRepository implements UserRepository {
         template.update(sql, param);
     }
 
-    private RowMapper<User> userRowMapper() {
-        return BeanPropertyRowMapper.newInstance(User.class);
+    private RowMapper<Member> userRowMapper() {
+        return BeanPropertyRowMapper.newInstance(Member.class);
     }
 
 }

@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.dodam.common.exception.RegisterException;
-import com.example.dodam.domain.user.RegisterRequest;
-import com.example.dodam.domain.user.User;
-import com.example.dodam.repository.user.UserRepository;
-import com.example.dodam.service.user.RegisterService;
+import com.example.dodam.domain.member.RegisterRequest;
+import com.example.dodam.domain.member.Member;
+import com.example.dodam.repository.member.MemberRepository;
+import com.example.dodam.service.member.RegisterService;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -25,15 +25,15 @@ class RegisterServiceTest {
     private RegisterService registerService;
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     @DisplayName("Test user register")
     @MethodSource("generateTestRegisterRequest")
     @ParameterizedTest
     void register(RegisterRequest registerRequest) {
-        User user = registerService.register(registerRequest);
-        User savedUser = userRepository.findById(user.getId()).get();
-        assertThat(savedUser.getCreateAt()).isNotNull();
+        Member member = registerService.register(registerRequest);
+        Member savedMember = memberRepository.findById(member.getId()).get();
+        assertThat(savedMember.getCreateAt()).isNotNull();
     }
 
     @DisplayName("Input Duplicate email user")

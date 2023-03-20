@@ -1,4 +1,4 @@
-package com.example.dodam.domain.user;
+package com.example.dodam.domain.member;
 
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
@@ -33,8 +33,8 @@ public class RegisterRequest {
 
     private String imagePath;
 
-    public User toUser() {
-        return User.builder()
+    public Member toUser() {
+        return Member.builder()
             .email(email)
             .password(password)
             .phone(phone)

@@ -1,4 +1,4 @@
-package com.example.dodam.domain.user;
+package com.example.dodam.domain.member;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserRequest {
+public class UpdateMemberRequest {
     private String password;
     private String phone;
     private String nickname;
@@ -26,8 +26,8 @@ public class UpdateUserRequest {
     private LocalDateTime updateAt;
     private LocalDateTime startDate;
 
-    public User toUser() {
-        return User.builder()
+    public Member toUser() {
+        return Member.builder()
             .password(password)
             .phone(phone)
             .nickname(nickname)

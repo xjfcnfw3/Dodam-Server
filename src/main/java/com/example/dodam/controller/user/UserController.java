@@ -1,11 +1,11 @@
 package com.example.dodam.controller.user;
 
-import com.example.dodam.config.auth.PrincipalDetails;
-import com.example.dodam.domain.user.UpdateUserRequest;
-import com.example.dodam.domain.user.User;
-import com.example.dodam.domain.user.UserResponse;
-import com.example.dodam.service.user.FileUploadService;
-import com.example.dodam.service.user.UserService;
+import com.example.dodam.config.auth.MemberDetails;
+import com.example.dodam.domain.member.UpdateMemberRequest;
+import com.example.dodam.domain.member.Member;
+import com.example.dodam.domain.member.MemberResponse;
+import com.example.dodam.service.member.FileUploadService;
+import com.example.dodam.service.member.MemberService;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -30,27 +30,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final MemberService memberService;
     private final FileUploadService fileUploadService;
 
     @GetMapping
-    public ResponseEntity<UserResponse> getUser(Authentication authentication) {
-        return ResponseEntity.ok(UserResponse.of(getPrincipalUser(authentication)));
+    public ResponseEntity<MemberResponse> getUser(Authentication authentication) {
+        return ResponseEntity.ok(MemberResponse.of(getPrincipalUser(authentication)));
     }
 
     @PutMapping
-    public Object updateUser(@ModelAttribute UpdateUserRequest request, Authentication authentication) throws IOException {
-        User user = getPrincipalUser(authentication);
+    public Object updateUser(@ModelAttribute UpdateMemberRequest request, Authentication authentication) throws IOException {
+        Member member = getPrincipalUser(authentication);
         String imagePath = fileUploadService.storeFile(request.getProfileImage());
         request.setImgPath(imagePath);
-        fileUploadService.deleteFile(user.getImgPath());
-        userService.update(user.getEmail(), request);
+        fileUploadService.deleteFile(member.getImgPath());
+        memberService.update(member.getEmail(), request);
         return Map.of("result", "성공");
     }
 
     @DeleteMapping
     public Object deleteUser(Authentication authentication) {
-        userService.delete(getPrincipalUser(authentication).getId());
+        memberService.delete(getPrincipalUser(authentication).getId());
         return Map.of("result", "성공");
     }
 
@@ -63,14 +63,14 @@ public class UserController {
 
     @DeleteMapping("/images")
     public Object deleteImage(Authentication authentication) {
-        User user = getPrincipalUser(authentication);
-        userService.deleteImage(user.getId());
-        fileUploadService.deleteFile(user.getImgPath());
+        Member member = getPrincipalUser(authentication);
+        memberService.deleteImage(member.getId());
+        fileUploadService.deleteFile(member.getImgPath());
         return Map.of("result", "성공");
     }
 
-    private User getPrincipalUser(Authentication authentication) {
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+    private Member getPrincipalUser(Authentication authentication) {
+        MemberDetails principal = (MemberDetails) authentication.getPrincipal();
         return principal.getUser();
     }
 }
