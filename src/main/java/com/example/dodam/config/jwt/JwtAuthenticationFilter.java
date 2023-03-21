@@ -1,7 +1,5 @@
 package com.example.dodam.config.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.login.LoginRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,14 +73,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		MemberDetails principalDetailis = (MemberDetails) authResult.getPrincipal();
 		
-		String jwtToken = JWT.create()
-				.withSubject(principalDetailis.getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-				.withClaim("id", principalDetailis.getUser().getId())
-				.withClaim("username", principalDetailis.getUser().getEmail())
-				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
-		
-		response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken);
+//		String jwtToken = JWT.create()
+//				.withSubject(principalDetailis.getUsername())
+//				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
+//				.withClaim("id", principalDetailis.getUser().getId())
+//				.withClaim("username", principalDetailis.getUser().getEmail())
+//				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
+//
+//		response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken);
 	}
 	
 }
