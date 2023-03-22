@@ -17,6 +17,15 @@ public class AuthProperties {
 
     public static class Auth {
         private String tokenSecret;
+        private Long expiration;
+
+        public Long getExpiration() {
+            return expiration;
+        }
+
+        public void setExpiration(Long expiration) {
+            this.expiration = expiration;
+        }
 
         public String getTokenSecret() {
             return tokenSecret;
