@@ -1,5 +1,7 @@
 package com.example.dodam.config.auth;
 
+import com.example.dodam.common.exception.EntityNotFoundException;
+import com.example.dodam.common.exception.ErrorCode;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ public class MemberDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("PrincipalDetailsService : 진입");
 		Member member = memberRepository.findByUsername(username)
-			.orElseThrow();
+			.orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
 		return new MemberDetails(member);	// 여기서 return 되면 session 에 들어감 -> 권한 관리를 위해서만 사용됨
 	}
 }
