@@ -37,3 +37,4 @@ application-secret.properties
 ### VS Code ###
 .vscode/
 /src/main/resources/application-secret.yml
+application-test.yml
