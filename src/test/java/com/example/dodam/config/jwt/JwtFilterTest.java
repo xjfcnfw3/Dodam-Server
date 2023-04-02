@@ -2,6 +2,7 @@ package com.example.dodam.config.jwt;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,10 +25,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+
+@WebAppConfiguration
 @Import({SecurityConfig.class, CorsConfig.class})
 @WebMvcTest(controllers = AuthController.class)
 @ExtendWith(SpringExtension.class)
@@ -84,7 +88,8 @@ class JwtFilterTest {
         given(tokenProvider.validateAccessToken(any(String.class))).willReturn(false);
         mvc.perform(get("/test/auth")
                 .header(JwtFilter.AUTHORIZATION, "not token")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()))
             .andExpect(status().is4xxClientError());
     }
 

@@ -78,7 +78,7 @@ class RegisterServiceTest {
 
     private static Stream<RegisterRequest> generateTestRegisterRequest() {
         return Stream.of(
-            RegisterRequest.builder().email("test@naver.com").password("123").nickname("hello")
+            RegisterRequest.builder().email("test@naver.com").password("12345678").nickname("hello")
             .birthDate(LocalDate.of(2023, 1, 29)).phone("012345678")
             .build());
     }

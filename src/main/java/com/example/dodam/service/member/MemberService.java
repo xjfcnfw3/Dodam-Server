@@ -5,6 +5,7 @@ import com.example.dodam.common.exception.ErrorCode;
 import com.example.dodam.domain.member.UpdateMemberRequest;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.repository.member.MemberRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +20,9 @@ public class MemberService {
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public Member update(String email, UpdateMemberRequest updateMemberRequest) {
+    public void update(String email, UpdateMemberRequest updateMemberRequest) {
         Member member = memberRepository.findByEmail(email)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
-        return memberRepository.update(member.getId(), updateMemberRequest.toUser());
     }
 
     public void delete(Long userId) {
@@ -30,6 +30,11 @@ public class MemberService {
     }
 
     public void deleteImage(Long userId) {
-        memberRepository.deleteImage(userId);
+        Optional<Member> foundMember = memberRepository.findById(userId);
+        if (foundMember.isPresent()) {
+            Member member  = foundMember.get();
+            member.setImgPath("");
+            memberRepository.save(member);
+        }
     }
 }

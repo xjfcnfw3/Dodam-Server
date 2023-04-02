@@ -10,6 +10,7 @@ import com.example.dodam.repository.StepRepository;
 import com.example.dodam.repository.member.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +92,7 @@ public class StepService {
         Long order = stepRepository.countStepByUserId(userId);
         Member member = memberRepository.findById(userId).orElseThrow(NoSuchElementException::new);
         if (member.getStartDate() == null) {
-            memberRepository.update(userId, Member.builder().startDate(LocalDateTime.now()).build());
+            member.setStartDate(LocalDateTime.now());
         }
         Step step = Step.builder()
                 .userId(userId)
@@ -103,7 +104,14 @@ public class StepService {
         return step.getStepId();
     }
 
+    @Transactional
     public void setStartDate(LocalDateTime startDate, Long userId) {
-        memberRepository.updateStartDate(userId, startDate);
+        Optional<Member> foundMember = memberRepository.findById(userId);
+        if (foundMember.isPresent()) {
+            Member member = foundMember.get();
+            member.setStartDate(startDate);
+            memberRepository.save(member);
+        }
+
     }
 }

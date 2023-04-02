@@ -43,7 +43,7 @@ public class RegisterService {
     }
 
     private void validateDuplicateNickName(String nickname) {
-        if (memberRepository.findByNickName(nickname).isPresent()) {
+        if (memberRepository.findByNickname(nickname).isPresent()) {
             throw new RegisterException(ErrorCode.DUPLICATED_NICKNAME);
         }
     }
