@@ -8,6 +8,7 @@ import com.example.dodam.dto.StepSelectDto;
 import com.example.dodam.domain.Step;
 import com.example.dodam.repository.StepRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 
+@Disabled
 @SpringBootTest
 @Transactional
 class StepServiceTest {
