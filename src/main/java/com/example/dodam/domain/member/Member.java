@@ -1,12 +1,12 @@
 package com.example.dodam.domain.member;
 
+import com.example.dodam.domain.common.BaseTimeEntity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -15,7 +15,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @Setter
@@ -23,7 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member {
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,14 +46,5 @@ public class Member {
 
     private LocalDate birthDate;
 
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
-
     private LocalDateTime startDate;
-
-    @PrePersist
-    private void initMember() {
-        this.createAt = LocalDateTime.now();
-    }
 }

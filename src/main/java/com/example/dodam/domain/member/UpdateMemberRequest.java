@@ -35,7 +35,6 @@ public class UpdateMemberRequest {
             .imgPath(imgPath)
             .role(role)
             .birthDate(birthDate)
-            .updateAt(updateAt)
             .startDate(startDate)
             .build();
     }
