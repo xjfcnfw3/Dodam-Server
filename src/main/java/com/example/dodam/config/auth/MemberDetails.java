@@ -2,23 +2,30 @@ package com.example.dodam.config.auth;
 
 import com.example.dodam.domain.member.Member;
 import java.util.Collections;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class MemberDetails implements UserDetails{
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class MemberDetails implements UserDetails {
 
 	private Member member;
-
-    public MemberDetails(Member member){
-        this.member = member;
-    }
 
     public Member getUser() {
 		return member;
 	}
+
+    public static MemberDetails create(Member member) {
+        return new MemberDetails(member);
+    }
+
+    private MemberDetails(Member member) {
+        this.member = member;
+    }
 
     @Override
     public String getPassword() {

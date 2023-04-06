@@ -18,9 +18,8 @@ public class MemberDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("PrincipalDetailsService : 진입");
 		Member member = memberRepository.findByEmail(username)
 			.orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
-		return new MemberDetails(member);	// 여기서 return 되면 session 에 들어감 -> 권한 관리를 위해서만 사용됨
+		return MemberDetails.create(member);
 	}
 }

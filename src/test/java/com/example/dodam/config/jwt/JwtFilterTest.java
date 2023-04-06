@@ -69,7 +69,7 @@ class JwtFilterTest {
             .password(PASSWORD)
             .role("USER")
             .build();
-        memberDetails = new MemberDetails(member);
+        memberDetails = MemberDetails.create(member);
     }
 
     @Test
