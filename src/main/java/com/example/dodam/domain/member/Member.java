@@ -47,4 +47,18 @@ public class Member extends BaseTimeEntity {
     private LocalDate birthDate;
 
     private LocalDateTime startDate;
+
+    public void update(Member member) {
+        if (member.password != null) {
+            this.password = member.password;
+        }
+
+        if (member.nickname != null) {
+            this.nickname = member.nickname;
+        }
+
+        if (member.startDate != null) {
+            this.startDate = member.startDate;
+        }
+    }
 }

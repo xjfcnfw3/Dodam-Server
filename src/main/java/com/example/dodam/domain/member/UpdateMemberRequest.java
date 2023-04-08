@@ -16,24 +16,17 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class UpdateMemberRequest {
     private String password;
-    private String phone;
     private String nickname;
-    private String status;
     private String imgPath;
-    private String role;
     private MultipartFile profileImage;
     private LocalDate birthDate;
-    private LocalDateTime updateAt;
     private LocalDateTime startDate;
 
     public Member toUser() {
         return Member.builder()
             .password(password)
-            .phone(phone)
             .nickname(nickname)
-            .status(status)
             .imgPath(imgPath)
-            .role(role)
             .birthDate(birthDate)
             .startDate(startDate)
             .build();

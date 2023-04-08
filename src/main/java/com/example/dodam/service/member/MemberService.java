@@ -23,6 +23,7 @@ public class MemberService {
     public void update(String email, UpdateMemberRequest updateMemberRequest) {
         Member member = memberRepository.findByEmail(email)
             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
+        member.update(updateMemberRequest.toUser());
     }
 
     public void delete(Long userId) {
