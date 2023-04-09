@@ -44,7 +44,8 @@ public class DiaryService {
         //다이어리 사진 base64 -> img로 저장
         if(diary.getBase64Img() != null){
             byte[] decodeImg  = base64Decode(diary.getBase64Img());
-            String target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+diary.getUserId().toString()+"_"+diary.getDate().toString()+".jpg";
+            String target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"+"USER"
+                +"_"+diary.getDate().toString()+".jpg";
             try {
                 BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(decodeImg));
                 File file = new File(target);
@@ -52,7 +53,8 @@ public class DiaryService {
                 ImageIO.write(bufImg, "jpg", file);
                 // png일때
                 if (!file.exists()) {
-                    target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/" + diary.getUserId().toString() + "_" + diary.getDate().toString() + ".png";
+                    target = "/Users/gimga-eun/Desktop/대학/대외활동/도담/Dodam-Server/image/diary/"
+                        + "USER" + "_" + diary.getDate().toString() + ".png";
                     file = new File(target);
                     ImageIO.write(bufImg, "png", file);
                 }

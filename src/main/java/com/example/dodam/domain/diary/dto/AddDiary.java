@@ -11,7 +11,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class AddDiary {
-    public Long userId;
     public Date date;
     public String title;
     public String base64Img;
@@ -21,7 +20,6 @@ public class AddDiary {
 
     public Diary toDiary() {
         return Diary.builder()
-            .userId(userId)
             .date(date)
             .title(title)
             .talkToBaby(oneWord)

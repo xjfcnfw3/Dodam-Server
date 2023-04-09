@@ -1,10 +1,15 @@
 package com.example.dodam.domain.diary;
 
 import com.example.dodam.domain.common.BaseTimeEntity;
+import com.example.dodam.domain.member.Member;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,14 +29,23 @@ public class Diary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public Long userId;
-    public Date date;
-    public String title;
-    public String imgPath;
-    public String talkToBaby;
-    public String feel;
-    public String content;
+    private Long id;
+
+    private Date date;
+
+    private String title;
+
+    private String imgPath;
+
+    private String talkToBaby;
+
+    private String feel;
+
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     public void updateImagePath(String imgPath) {
         this.imgPath = imgPath;

@@ -1,12 +1,18 @@
 package com.example.dodam.domain.member;
 
 import com.example.dodam.domain.common.BaseTimeEntity;
+import com.example.dodam.domain.diary.Diary;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -23,6 +29,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,6 +55,11 @@ public class Member extends BaseTimeEntity {
 
     private LocalDateTime startDate;
 
+    @Builder.Default
+    @OrderBy("date")
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "member")
+    private List<Diary> diaries = new ArrayList<>();
+
     public void update(Member member) {
         if (member.password != null) {
             this.password = member.password;
@@ -60,5 +72,13 @@ public class Member extends BaseTimeEntity {
         if (member.startDate != null) {
             this.startDate = member.startDate;
         }
+    }
+
+    public void addDiary(Diary diary) {
+        this.diaries.add(diary);
+    }
+
+    public void deleteDiary(Diary diary) {
+        this.diaries.remove(diary);
     }
 }

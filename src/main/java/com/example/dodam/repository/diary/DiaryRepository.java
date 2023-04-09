@@ -3,6 +3,7 @@ package com.example.dodam.repository.diary;
 import com.example.dodam.domain.diary.Diary;
 import com.example.dodam.domain.diary.dto.DiaryList;
 
+import com.example.dodam.domain.member.Member;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     Optional<Diary>  findByDate(String date);
-    List<DiaryList> findAllByUserId(Long id);
+    List<DiaryList> findAllByMember(Member member);
 }
