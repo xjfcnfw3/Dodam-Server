@@ -1,7 +1,7 @@
 package com.example.dodam.repository.diary;
 
-import com.example.dodam.domain.diary.DiaryDetail;
-import com.example.dodam.domain.diary.DiaryList;
+import com.example.dodam.domain.diary.dto.DiaryDetail;
+import com.example.dodam.domain.diary.dto.DiaryList;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.example.dodam.domain.diary.Diary;
 import org.springframework.jdbc.core.RowMapper;

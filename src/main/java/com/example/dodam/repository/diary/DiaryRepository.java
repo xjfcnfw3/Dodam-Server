@@ -1,7 +1,7 @@
 package com.example.dodam.repository.diary;
 
 import com.example.dodam.domain.diary.Diary;
-import com.example.dodam.domain.diary.DiaryList;
+import com.example.dodam.domain.diary.dto.DiaryList;
 
 import java.util.List;
 import java.util.Optional;

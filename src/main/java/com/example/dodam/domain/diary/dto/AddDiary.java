@@ -1,6 +1,7 @@
 
-package com.example.dodam.domain.diary;
+package com.example.dodam.domain.diary.dto;
 
+import com.example.dodam.domain.diary.Diary;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,10 @@
 package com.example.dodam.service.diary;
 
 import com.example.dodam.domain.diary.*;
+import com.example.dodam.domain.diary.dto.AddDiary;
+import com.example.dodam.domain.diary.dto.DiaryDetail;
+import com.example.dodam.domain.diary.dto.DiaryImage;
+import com.example.dodam.domain.diary.dto.DiaryList;
 import com.example.dodam.repository.diary.DiaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

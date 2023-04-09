@@ -1,6 +1,10 @@
 package com.example.dodam.controller.diary;
 
-import com.example.dodam.domain.diary.*;
+import com.example.dodam.domain.diary.dto.AddDiary;
+import com.example.dodam.domain.diary.dto.DiaryDetail;
+import com.example.dodam.domain.diary.dto.DiaryDetailImg;
+import com.example.dodam.domain.diary.dto.DiaryImage;
+import com.example.dodam.domain.diary.dto.DiaryList;
 import com.example.dodam.service.diary.DiaryService;
 import org.springframework.web.bind.annotation.*;
 

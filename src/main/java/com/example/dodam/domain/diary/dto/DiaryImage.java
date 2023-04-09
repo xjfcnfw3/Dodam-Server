@@ -1,5 +1,6 @@
-package com.example.dodam.domain.diary;
+package com.example.dodam.domain.diary.dto;
 
+import com.example.dodam.domain.diary.Diary;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,6 @@ public class DiaryImage {
     public String content;
 
     public Diary toDiary() {
-        return new Diary();
+        return Diary.builder().build();
     }
 }
