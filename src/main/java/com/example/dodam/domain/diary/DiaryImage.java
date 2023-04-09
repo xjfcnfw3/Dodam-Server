@@ -18,4 +18,7 @@ public class DiaryImage {
     public String feel;
     public String content;
 
+    public Diary toDiary() {
+        return new Diary();
+    }
 }

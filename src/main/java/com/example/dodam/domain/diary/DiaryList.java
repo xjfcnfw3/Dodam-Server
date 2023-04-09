@@ -11,6 +11,5 @@ public class DiaryList {
     public Integer id;
     public Date date;
     public String feel;
-
 }
 

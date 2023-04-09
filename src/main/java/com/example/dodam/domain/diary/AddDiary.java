@@ -17,5 +17,16 @@ public class AddDiary {
     public String oneWord;
     public String feel;
     public String content;
+
+    public Diary toDiary() {
+        return Diary.builder()
+            .userId(userId)
+            .date(date)
+            .title(title)
+            .talkToBaby(oneWord)
+            .feel(feel)
+            .content(content)
+            .build();
+    }
 }
 

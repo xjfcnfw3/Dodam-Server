@@ -36,14 +36,7 @@ public class DiaryService {
     public Boolean addDiary(AddDiary diary){
         //중복 다이어리 확인
         validateDuplicateDiary(diary);
-        Diary diaryImgpath = new Diary();
-        diaryImgpath.setId(0L);
-        diaryImgpath.setDate(diary.getDate());
-        diaryImgpath.setFeel(diary.getFeel());
-        diaryImgpath.setTitle(diary.getTitle());
-        diaryImgpath.setOneWord(diary.getOneWord());
-        diaryImgpath.setUserId(diary.getUserId());
-        diaryImgpath.setContent(diary.getContent());
+        Diary diaryImgpath = diary.toDiary();
         //다이어리 사진 base64 -> img로 저장
         if(diary.getBase64Img() != null){
             byte[] decodeImg  = base64Decode(diary.getBase64Img());
@@ -81,15 +74,7 @@ public class DiaryService {
     public Integer updateDiary(DiaryImage diary){
         // 받은 base64 이미지 -> 이미지로 변환
 
-
-        Diary diaryImgpath = new Diary();
-        diaryImgpath.setId(diary.getId());
-        diaryImgpath.setDate(diary.getDate());
-        diaryImgpath.setFeel(diary.getFeel());
-        diaryImgpath.setTitle(diary.getTitle());
-        diaryImgpath.setOneWord(diary.getOneWord());
-        diaryImgpath.setUserId(diary.getUserId());
-        diaryImgpath.setContent(diary.getContent());
+        Diary diaryImgpath = diary.toDiary();
         //수정 전에 저장된 주소
         String target = diaryRepository.findById(diary.getId()).get().getImgPath();
 

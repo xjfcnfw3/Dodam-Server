@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class JdbcDiaryRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -30,7 +29,7 @@ public class JdbcDiaryRepository {
         parameters.put("date",diary.getDate());
         parameters.put("title",diary.getTitle());
         parameters.put("imgPath",diary.getImgPath());
-        parameters.put("oneWord",diary.getOneWord());
+        parameters.put("oneWord",diary.getTalkToBaby());
         parameters.put("feel",diary.getFeel());
         parameters.put("content",diary.getContent());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
@@ -41,7 +40,7 @@ public class JdbcDiaryRepository {
     //다이어리 수정
     public String updateDiary(Diary diary) {
         Long diaryId = diary.getId();
-        jdbcTemplate.update("update diary set title = ?,imgPath = ?,oneWord = ? , feel = ? where id = ?",diary.getTitle(),diary.getImgPath(),diary.getOneWord(),diary.getFeel(),diary.getId());
+        jdbcTemplate.update("update diary set title = ?,imgPath = ?,oneWord = ? , feel = ? where id = ?",diary.getTitle(),diary.getImgPath(),diary.getTalkToBaby(),diary.getFeel(),diary.getId());
         return "ok";
     }
 
@@ -53,10 +52,10 @@ public class JdbcDiaryRepository {
 
 
     // 원하는 다이어리 찾기
-    public Optional<Diary>  findByDate(Integer id , String date){
-        List<Diary> result = jdbcTemplate.query("select * from diary where date = ? and userId = ? ",diaryRowmapper(),date,id);
-        return result.stream().findAny();
-    }
+//    public Optional<Diary>  findByDate(Integer id , String date){
+//        List<Diary> result = jdbcTemplate.query("select * from diary where date = ? and userId = ? ",diaryRowmapper(),date,id);
+//        return result.stream().findAny();
+//    }
 
     //다이어리 리스트 조회
     public List<DiaryList> findAll(Integer id ) {
@@ -78,19 +77,20 @@ public class JdbcDiaryRepository {
 
 
 
-    private RowMapper<Diary> diaryRowmapper(){
-        return (rs, rowNum) -> {
-            Diary diary = new Diary();
-            diary.setId(rs.getLong("id"));
-            diary.setUserId(rs.getLong("userId"));
-            diary.setDate(rs.getDate("date"));
-            diary.setTitle(rs.getString("title"));
-            diary.setFeel(rs.getString("feel"));
-            diary.setOneWord(rs.getString("oneWord"));
-            diary.setImgPath(rs.getString("imgPath"));
-            return diary;
-        };
-    }
+//    private RowMapper<Diary> diaryRowmapper(){
+//        return (rs, rowNum) -> {
+//            Diary diary = new Diary();
+//            diary.setId(rs.getLong("id"));
+//            diary.setUserId(rs.getLong("userId"));
+//            diary.setDate(rs.getDate("date"));
+//            diary.setTitle(rs.getString("title"));
+//            diary.setFeel(rs.getString("feel"));
+//            diary.setOneWord(rs.getString("oneWord"));
+//            diary.setImgPath(rs.getString("imgPath"));
+//            return diary;
+//        };
+//    }
+
     private RowMapper<DiaryList> diaryListRowmapper(){
         return (rs, rowNum) -> {
             DiaryList diary = new DiaryList();
