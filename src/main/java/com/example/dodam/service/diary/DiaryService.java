@@ -2,8 +2,8 @@ package com.example.dodam.service.diary;
 
 import com.example.dodam.domain.diary.*;
 import com.example.dodam.repository.diary.DiaryRepository;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 
 import javax.imageio.ImageIO;
@@ -15,22 +15,21 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class DiaryService {
 
     private final DiaryRepository diaryRepository ;
 
-    public DiaryService(DiaryRepository diaryRepository) {
-        this.diaryRepository = diaryRepository;
-    }
-
 
     //다이어리 목록 조회
-    public List<DiaryList> findDiarys(Integer id ){
-        return diaryRepository.findAll(id);
+    public List<DiaryList> findDiaries(Integer id ){
+//        return diaryRepository.findAll(Long.valueOf(id));
+        return null;
     }
     //다이어리 조회
     public Optional<DiaryDetail> findDiary(Integer id ){
-        return Optional.of(diaryRepository.findDiary(id));
+        return Optional.of(DiaryDetail.of(diaryRepository.findById(Long.valueOf(id)).get()));
     }
 
     //다이어리 등록
@@ -38,7 +37,7 @@ public class DiaryService {
         //중복 다이어리 확인
         validateDuplicateDiary(diary);
         Diary diaryImgpath = new Diary();
-        diaryImgpath.setId(0);
+        diaryImgpath.setId(0L);
         diaryImgpath.setDate(diary.getDate());
         diaryImgpath.setFeel(diary.getFeel());
         diaryImgpath.setTitle(diary.getTitle());
@@ -92,7 +91,7 @@ public class DiaryService {
         diaryImgpath.setUserId(diary.getUserId());
         diaryImgpath.setContent(diary.getContent());
         //수정 전에 저장된 주소
-        String target = diaryRepository.findDiary(diary.getId()).getImgPath();
+        String target = diaryRepository.findById(diary.getId()).get().getImgPath();
 
         try {
             //이미지를 추가했다면
@@ -123,26 +122,23 @@ public class DiaryService {
                 }
                 diaryImgpath.setImgPath(null);
             }
-            diaryRepository.updateDiary(diaryImgpath);
+//            diaryRepository.updateDiary(diaryImgpath);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
 
                 return 1;
             }
-
-
-
-        return diary.getId();
-
+        return 0;
     }
 
     //다이어리 삭제
     public Integer deleteDiary(Integer id){
-        String target = diaryRepository.findDiary(id).getImgPath();
+        Long diaryId = Long.valueOf(id);
+        String target = diaryRepository.findById(diaryId).get().getImgPath();
         File deleteFolder = new File(target);
         deleteFolder.delete();
-        diaryRepository.deleteDiary(id);
+//        diaryRepository.deleteAllById(diaryId);
         return id;
     }
 
@@ -151,7 +147,7 @@ public class DiaryService {
         String diaryDate = diary.getDate().toInstant()
                 .atOffset(ZoneOffset.UTC)
                 .format( DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        diaryRepository.findByDate(diary.getUserId() , diaryDate).ifPresent(m->{
+        diaryRepository.findByDate(diaryDate).ifPresent(m->{
             throw new IllegalStateException("이미 존재하는 다이어리");
 
         });

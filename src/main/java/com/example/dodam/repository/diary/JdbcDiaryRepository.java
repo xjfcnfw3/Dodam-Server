@@ -1,7 +1,7 @@
 package com.example.dodam.repository.diary;
+
 import com.example.dodam.domain.diary.DiaryDetail;
 import com.example.dodam.domain.diary.DiaryList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.example.dodam.domain.diary.Diary;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,16 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class JdbcDiaryRepository implements DiaryRepository {
+public class JdbcDiaryRepository {
     private final JdbcTemplate jdbcTemplate;
-    @Autowired
     public JdbcDiaryRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
 
     //다이어리 등록
-    @Override
     public Diary save(Diary diary) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("diary").usingGeneratedKeyColumns("id");
@@ -36,20 +34,18 @@ public class JdbcDiaryRepository implements DiaryRepository {
         parameters.put("feel",diary.getFeel());
         parameters.put("content",diary.getContent());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-        diary.setId(key.intValue());
+        diary.setId(key.longValue());
         return diary;
     }
 
     //다이어리 수정
-    @Override
     public String updateDiary(Diary diary) {
-        Integer diaryId = diary.getId();
+        Long diaryId = diary.getId();
         jdbcTemplate.update("update diary set title = ?,imgPath = ?,oneWord = ? , feel = ? where id = ?",diary.getTitle(),diary.getImgPath(),diary.getOneWord(),diary.getFeel(),diary.getId());
         return "ok";
     }
 
     //다이어리 삭제
-    @Override
     public String deleteDiary(Integer id) {
         jdbcTemplate.update("delete from diary where id = ?",id);
         return "ok";
@@ -57,19 +53,16 @@ public class JdbcDiaryRepository implements DiaryRepository {
 
 
     // 원하는 다이어리 찾기
-    @Override
     public Optional<Diary>  findByDate(Integer id , String date){
         List<Diary> result = jdbcTemplate.query("select * from diary where date = ? and userId = ? ",diaryRowmapper(),date,id);
         return result.stream().findAny();
     }
 
     //다이어리 리스트 조회
-    @Override
     public List<DiaryList> findAll(Integer id ) {
         return jdbcTemplate.query("select id,date,feel from diary where userId = ?", diaryListRowmapper(),id);
     }
     //다이어리 조회
-    @Override
     public DiaryDetail findDiary(Integer id ) {
         // jdbcTemplate.queryForObject("select id,title,content,imgPath,oneWord from diary where id = ?", DiaryDetail.class,id);
         List<DiaryDetail> diaryList = jdbcTemplate.query("select id,title,content,imgPath,oneWord from diary where id = ?", diaryDetailRowmapper(),id);
@@ -88,8 +81,8 @@ public class JdbcDiaryRepository implements DiaryRepository {
     private RowMapper<Diary> diaryRowmapper(){
         return (rs, rowNum) -> {
             Diary diary = new Diary();
-            diary.setId((int) rs.getLong("id"));
-            diary.setUserId((int) rs.getLong("userId"));
+            diary.setId(rs.getLong("id"));
+            diary.setUserId(rs.getLong("userId"));
             diary.setDate(rs.getDate("date"));
             diary.setTitle(rs.getString("title"));
             diary.setFeel(rs.getString("feel"));
@@ -110,7 +103,7 @@ public class JdbcDiaryRepository implements DiaryRepository {
     private RowMapper<DiaryDetail> diaryDetailRowmapper(){
         return (rs, rowNum) -> {
             DiaryDetail diary = new DiaryDetail();
-            diary.setId((int) rs.getLong("id"));
+            diary.setId(rs.getLong("id"));
             diary.setTitle(rs.getString("title"));
             diary.setContent(rs.getString("content"));
             diary.setImgPath(rs.getString("imgPath"));

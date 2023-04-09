@@ -3,7 +3,6 @@ package com.example.dodam.controller.diary;
 import com.example.dodam.domain.diary.*;
 import com.example.dodam.service.diary.DiaryService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class DiaryController {
     // 다이어리 목록 조회
     @GetMapping("/diary/{id}")
     public List<DiaryList> getDiaryList(@PathVariable Integer id){
-        List<DiaryList>  diaryList = diaryService.findDiarys(id);
+        List<DiaryList>  diaryList = diaryService.findDiaries(id);
         return diaryList;
     }
 

@@ -3,7 +3,6 @@ package com.example.dodam.domain.diary;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -11,13 +10,12 @@ import java.util.Date;
 @Getter
 @Setter
 public class AddDiary {
-    public Integer userId;
+    public Long userId;
     public Date date;
     public String title;
     public String base64Img;
     public String oneWord;
     public String feel;
     public String content;
-
 }
 
