@@ -4,7 +4,7 @@ import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.member.UpdateMemberRequest;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.domain.member.MemberResponse;
-import com.example.dodam.service.member.FileUploadService;
+import com.example.dodam.common.fileupload.service.FileUploadService;
 import com.example.dodam.service.member.MemberService;
 import java.io.IOException;
 import java.net.MalformedURLException;
