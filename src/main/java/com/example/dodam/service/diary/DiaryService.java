@@ -4,7 +4,7 @@ import com.example.dodam.domain.diary.*;
 import com.example.dodam.domain.diary.dto.AddDiary;
 import com.example.dodam.domain.diary.dto.DiaryDetail;
 import com.example.dodam.domain.diary.dto.DiaryImage;
-import com.example.dodam.domain.diary.dto.DiaryList;
+import com.example.dodam.domain.diary.dto.DiaryResponse;
 import com.example.dodam.repository.diary.DiaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class DiaryService {
 
 
     //다이어리 목록 조회
-    public List<DiaryList> findDiaries(Integer id ){
+    public List<DiaryResponse> findDiaries(Integer id ){
 //        return diaryRepository.findAll(Long.valueOf(id));
         return null;
     }

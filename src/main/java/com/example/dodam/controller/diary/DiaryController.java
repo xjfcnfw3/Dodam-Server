@@ -4,7 +4,7 @@ import com.example.dodam.domain.diary.dto.AddDiary;
 import com.example.dodam.domain.diary.dto.DiaryDetail;
 import com.example.dodam.domain.diary.dto.DiaryDetailImg;
 import com.example.dodam.domain.diary.dto.DiaryImage;
-import com.example.dodam.domain.diary.dto.DiaryList;
+import com.example.dodam.domain.diary.dto.DiaryResponse;
 import com.example.dodam.service.diary.DiaryService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +25,8 @@ public class DiaryController {
 
     // 다이어리 목록 조회
     @GetMapping("/diary/{id}")
-    public List<DiaryList> getDiaryList(@PathVariable Integer id){
-        List<DiaryList>  diaryList = diaryService.findDiaries(id);
+    public List<DiaryResponse> getDiaryList(@PathVariable Integer id){
+        List<DiaryResponse>  diaryList = diaryService.findDiaries(id);
         return diaryList;
     }
 
