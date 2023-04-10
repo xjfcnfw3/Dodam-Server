@@ -4,7 +4,7 @@ import com.example.dodam.domain.sms.dto.SmsResponse;
 import com.example.dodam.domain.sms.dto.VerificationRequest;
 import com.example.dodam.domain.sms.dto.VerificationResponse;
 import com.example.dodam.domain.member.RegisterRequest;
-import com.example.dodam.service.member.FileUploadService;
+import com.example.dodam.common.fileupload.service.FileUploadService;
 import com.example.dodam.service.member.RegisterService;
 import com.example.dodam.service.member.SmsService;
 import com.fasterxml.jackson.core.JsonProcessingException;

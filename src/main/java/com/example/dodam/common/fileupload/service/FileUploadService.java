@@ -1,4 +1,4 @@
-package com.example.dodam.service.member;
+package com.example.dodam.common.fileupload.service;
 
 import java.io.File;
 import java.io.IOException;
