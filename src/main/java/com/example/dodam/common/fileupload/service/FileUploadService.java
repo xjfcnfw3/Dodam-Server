@@ -1,10 +1,12 @@
 package com.example.dodam.common.fileupload.service;
 
+import com.example.dodam.common.fileupload.FilePathService;
+import com.example.dodam.common.fileupload.ImageType;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,14 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FileUploadService {
 
-    // properties 파일에 file.dir에 설정
-    @Value("${file.dir}")
-    private String fileDir;
+    private final FilePathService filePathService;
+    private final ImageType imageType = ImageType.PROFILE;
 
     public String getFullPath(String filename) {
-        return fileDir + filename;
+        return filePathService.getFullPath(filename, imageType);
     }
 
     public String storeFile(MultipartFile multipartFile) throws IOException {
