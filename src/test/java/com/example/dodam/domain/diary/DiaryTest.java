@@ -3,6 +3,7 @@ package com.example.dodam.domain.diary;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.dodam.domain.member.Member;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,14 @@ class DiaryTest {
         String updatedPath = "/new";
         diary.updateImagePath(updatedPath);
         assertThat(diary.getImgPath()).isEqualTo(updatedPath);
+    }
+
+    @DisplayName("일기장과 유저와 연관관계를 맺는다.")
+    @Test
+    void associate() {
+        Member member = new Member();
+        diary.associateMember(member);
+        assertThat(member.getDiaries().get(0)).isEqualTo(diary);
     }
 
     @DisplayName("일기장 내용이 변경된다.")

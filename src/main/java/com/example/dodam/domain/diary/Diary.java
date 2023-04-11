@@ -43,12 +43,17 @@ public class Diary extends BaseTimeEntity {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     public void updateImagePath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public void associateMember(Member member) {
+        this.member = member;
+        member.addDiary(this);
     }
 
     public void updateDiaryContent(Diary diary) {
