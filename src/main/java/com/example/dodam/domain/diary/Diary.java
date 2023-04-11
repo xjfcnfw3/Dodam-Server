@@ -20,7 +20,6 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Setter
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -49,6 +48,10 @@ public class Diary extends BaseTimeEntity {
 
     public void updateImagePath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public void deleteImagePath() {
+        this.imgPath = null;
     }
 
     public void associateMember(Member member) {

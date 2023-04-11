@@ -5,9 +5,9 @@ import com.example.dodam.common.fileupload.ImageType;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DiaryUploadService extends FileUploadService {
+public class DiaryImageUploadService extends FileUploadService {
 
-    public DiaryUploadService(FilePathService filePathService) {
+    public DiaryImageUploadService(FilePathService filePathService) {
         super(filePathService, ImageType.DIARY);
     }
 }
