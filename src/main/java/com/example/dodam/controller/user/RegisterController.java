@@ -1,10 +1,10 @@
 package com.example.dodam.controller.user;
 
+import com.example.dodam.common.fileupload.service.ProfileUploadService;
 import com.example.dodam.domain.sms.dto.SmsResponse;
 import com.example.dodam.domain.sms.dto.VerificationRequest;
 import com.example.dodam.domain.sms.dto.VerificationResponse;
 import com.example.dodam.domain.member.RegisterRequest;
-import com.example.dodam.common.fileupload.service.FileUploadService;
 import com.example.dodam.service.member.RegisterService;
 import com.example.dodam.service.member.SmsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController {
 
     private final RegisterService registerService;
-    private final FileUploadService fileUploadService;
+    private final ProfileUploadService fileUploadService;
     private final SmsService smsService;
     private final PasswordEncoder passwordEncoder;
 

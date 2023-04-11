@@ -1,10 +1,10 @@
 package com.example.dodam.controller.user;
 
+import com.example.dodam.common.fileupload.service.ProfileUploadService;
 import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.member.UpdateMemberRequest;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.domain.member.MemberResponse;
-import com.example.dodam.common.fileupload.service.FileUploadService;
 import com.example.dodam.service.member.MemberService;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final MemberService memberService;
-    private final FileUploadService fileUploadService;
+    private final ProfileUploadService fileUploadService;
 
     @GetMapping
     public ResponseEntity<MemberResponse> getUser(Authentication authentication) {
