@@ -3,11 +3,10 @@ package com.example.dodam.service.diary;
 import com.example.dodam.common.fileupload.service.DiaryImageUploadService;
 import com.example.dodam.domain.diary.*;
 import com.example.dodam.domain.diary.dto.DiaryRequest;
-import com.example.dodam.domain.diary.dto.DiaryDetail;
 import com.example.dodam.domain.diary.dto.DiaryResponse;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.repository.diary.DiaryRepository;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +30,8 @@ public class DiaryService {
         return DiaryResponse.listOf(diaryRepository.findAllByMemberId(id));
     }
 
-    public Optional<DiaryDetail> findDiary(Long id){
-        Diary diary = diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        return Optional.of(DiaryDetail.of(diary));
+    public Diary findDiary(Long id){
+        return diaryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Transactional
@@ -83,7 +81,7 @@ public class DiaryService {
     }
 
     private void validateDuplicateDiary(Diary diary, Member member) {
-        Optional<Date> date = diaryRepository.findAllByMemberId(member.getId()).stream()
+        Optional<LocalDate> date = diaryRepository.findAllByMemberId(member.getId()).stream()
             .map(Diary::getDate)
             .filter((d) -> diary.getDate().equals(d))
             .findAny();
@@ -105,6 +103,5 @@ public class DiaryService {
             log.error("Error={}", e.getLocalizedMessage());
             throw new IllegalArgumentException(e.getLocalizedMessage());
         }
-
     }
 }

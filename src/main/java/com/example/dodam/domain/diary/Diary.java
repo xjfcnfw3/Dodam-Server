@@ -2,6 +2,7 @@ package com.example.dodam.domain.diary;
 
 import com.example.dodam.domain.common.BaseTimeEntity;
 import com.example.dodam.domain.member.Member;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class Diary extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date date;
+    private LocalDate date;
 
     private String title;
 

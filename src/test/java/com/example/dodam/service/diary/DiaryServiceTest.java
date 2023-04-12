@@ -13,6 +13,7 @@ import com.example.dodam.domain.diary.dto.DiaryRequest;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.repository.diary.DiaryRepository;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ class DiaryServiceTest {
 
         request = DiaryRequest.builder()
             .diaryImage(new MockMultipartFile("test", "<img>".getBytes()))
-            .date(new Date())
+            .date(LocalDate.now())
             .title("hello")
             .content("test")
             .build();

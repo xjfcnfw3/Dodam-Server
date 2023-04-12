@@ -2,42 +2,37 @@ package com.example.dodam.domain.diary.dto;
 
 import com.example.dodam.domain.diary.Diary;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Date;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.Date;
-
-//다이어리 목록 조회할 때 사용
+//다이어리 디테일 정보 반환할 때 사용
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class DiaryResponse {
+public class DiaryDetailsResponse {
 
     private Long id;
-    private String title;
     private LocalDate date;
+    private String title;
+    private String imgPath;
+    private String talkToBaby;
     private String feel;
+    private String content;
 
-    public static List<DiaryResponse> listOf(List<Diary> diaries) {
-        return diaries.stream()
-            .map(DiaryResponse::of)
-            .collect(Collectors.toList());
-    }
-
-    public static DiaryResponse of(Diary diary) {
-        return DiaryResponse.builder()
+    public static DiaryDetailsResponse of(Diary diary) {
+        return DiaryDetailsResponse.builder()
             .id(diary.getId())
-            .title(diary.getTitle())
             .date(diary.getDate())
+            .title(diary.getTitle())
+            .imgPath(diary.getImgPath())
+            .talkToBaby(diary.getTalkToBaby())
             .feel(diary.getFeel())
+            .content(diary.getContent())
             .build();
     }
 }
-

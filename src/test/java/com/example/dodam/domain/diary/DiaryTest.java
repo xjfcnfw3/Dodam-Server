@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.dodam.domain.member.Member;
-import java.util.Date;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class DiaryTest {
             .title("오늘의 일")
             .content("오늘은 노래를 들려주었어요.")
             .talkToBaby("이 노래 좋니?")
-            .date(new Date())
+            .date(LocalDate.now())
             .feel("Good")
             .imgPath("/hello")
             .build();
@@ -48,7 +48,7 @@ class DiaryTest {
             .title("병원에 갔어요")
             .content("오늘은 시술하는 날이에요")
             .talkToBaby("아기야 힘내")
-            .date(new Date())
+            .date(LocalDate.now())
             .feel("Hard")
             .build();
         diary.updateDiaryContent(updateDiary);

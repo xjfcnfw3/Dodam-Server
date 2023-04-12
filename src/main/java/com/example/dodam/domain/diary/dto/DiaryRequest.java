@@ -2,6 +2,7 @@
 package com.example.dodam.domain.diary.dto;
 
 import com.example.dodam.domain.diary.Diary;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DiaryRequest {
 
-    private Date date;
+    private LocalDate date;
     private String title;
     private MultipartFile diaryImage;
     private String talkToBaby;
