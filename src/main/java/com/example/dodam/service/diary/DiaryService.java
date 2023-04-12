@@ -44,7 +44,7 @@ public class DiaryService {
     }
 
     @Transactional
-    public void updateDiary(Long diaryId, DiaryRequest request, Member member) {
+    public void updateDiaryContent(Long diaryId, DiaryRequest request, Member member) {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(EntityNotFoundException::new);
         Diary updateDiary = request.toDiary();
 
@@ -68,11 +68,30 @@ public class DiaryService {
     }
 
     @Transactional
-    public void deleteDiary(Long id){
-        Optional<Diary> diary = diaryRepository.findById(id);
-        diary.ifPresent(value -> {
-            uploadService.deleteFile(value.getImgPath());
-            value.deleteImagePath();
+    public void deleteDiary(Long id, Member member){
+        diaryRepository.findById(id).ifPresent(value -> {
+            if (isDiaryOwner(member, value)) {
+                uploadService.deleteFile(value.getImgPath());
+                member.deleteDiary(value);
+            } else {
+                throw new IllegalArgumentException("일기장의 주인이 아닙니다.");
+            }
+        });
+    }
+
+    public String getImageFullPath(String imagePath) {
+        return uploadService.getFullPath(imagePath);
+    }
+
+    @Transactional
+    public void deleteDiaryImage(Long id, Member member) {
+        diaryRepository.findById(id).ifPresent(value -> {
+            if (isDiaryOwner(member, value)) {
+                uploadService.deleteFile(value.getImgPath());
+                value.deleteImagePath();
+            } else {
+                throw new IllegalArgumentException("일기장의 주인이 아닙니다.");
+            }
         });
     }
 
@@ -89,10 +108,6 @@ public class DiaryService {
         if (date.isPresent()) {
             throw new IllegalArgumentException("이미 날짜가 같은 일기장이 있습니다.");
         }
-    }
-
-    public String getImageFullPath(String imagePath) {
-        return uploadService.getFullPath(imagePath);
     }
 
     private void saveDiaryImageFile(MultipartFile file, Diary diary) {
