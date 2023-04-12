@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.dodam.common.fileupload.service.ProfileUploadService;
+import com.example.dodam.controller.member.UserController;
 import com.example.dodam.security.WithCustomMember;
 import com.example.dodam.service.member.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
