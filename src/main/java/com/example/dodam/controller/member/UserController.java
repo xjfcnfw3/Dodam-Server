@@ -1,4 +1,4 @@
-package com.example.dodam.controller.user;
+package com.example.dodam.controller.member;
 
 import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.member.UpdateMemberRequest;
