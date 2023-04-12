@@ -2,6 +2,7 @@ package com.example.dodam.controller.user;
 
 import com.example.dodam.common.fileupload.service.ProfileUploadService;
 import com.example.dodam.config.auth.MemberDetails;
+import com.example.dodam.config.security.LoginMember;
 import com.example.dodam.domain.member.UpdateMemberRequest;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.domain.member.MemberResponse;
@@ -34,8 +35,8 @@ public class UserController {
     private final ProfileUploadService fileUploadService;
 
     @GetMapping
-    public ResponseEntity<MemberResponse> getUser(Authentication authentication) {
-        return ResponseEntity.ok(MemberResponse.of(getPrincipalUser(authentication)));
+    public ResponseEntity<MemberResponse> getUser(@LoginMember Member member) {
+        return ResponseEntity.ok(MemberResponse.of(member));
     }
 
     @PutMapping
@@ -71,6 +72,6 @@ public class UserController {
 
     private Member getPrincipalUser(Authentication authentication) {
         MemberDetails principal = (MemberDetails) authentication.getPrincipal();
-        return principal.getUser();
+        return principal.getMember();
     }
 }
