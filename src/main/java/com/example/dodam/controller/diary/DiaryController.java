@@ -55,14 +55,14 @@ public class DiaryController {
     @PostMapping("/diary")
     public String addDiary(@RequestBody DiaryRequest request, Authentication authentication){
         MemberDetails details = (MemberDetails) authentication.getPrincipal();
-        diaryService.addDiary(request, details.getUser());
+        diaryService.addDiary(request, details.getMember());
         return "성공";
     }
     //수정
     @PutMapping("/diary/{id}")
     public String putDiary(@PathVariable("id") Long id, @RequestBody DiaryRequest request, Authentication authentication){
         MemberDetails details = (MemberDetails) authentication.getPrincipal();
-        diaryService.updateDiary(id, request, details.getUser());
+        diaryService.updateDiary(id, request, details.getMember());
         return "성공";
     }
 

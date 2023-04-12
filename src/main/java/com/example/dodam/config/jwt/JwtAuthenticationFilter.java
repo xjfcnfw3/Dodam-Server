@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
@@ -62,7 +61,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				authenticationManager.authenticate(authenticationToken);
 		
 		MemberDetails principalDetailis = (MemberDetails) authentication.getPrincipal();
-		System.out.println("Authentication : "+principalDetailis.getUser().getEmail());
+		System.out.println("Authentication : "+principalDetailis.getMember().getEmail());
 		return authentication;
 	}
 

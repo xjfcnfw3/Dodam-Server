@@ -15,7 +15,7 @@ public class MemberDetails implements UserDetails {
 
 	private Member member;
 
-    public Member getUser() {
+    public Member getMember() {
 		return member;
 	}
 

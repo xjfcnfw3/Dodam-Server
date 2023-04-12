@@ -78,6 +78,6 @@ public class StepController {
 
     private Member getPrincipalUser(Authentication authentication) {
         MemberDetails principal = (MemberDetails) authentication.getPrincipal();
-        return principal.getUser();
+        return principal.getMember();
     }
 }

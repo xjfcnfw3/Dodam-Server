@@ -62,7 +62,7 @@ public class JdbcInquiryRepository implements InquiryRepository {
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-        inquiry.setUserId(memberDetails.getUser().getId());
+        inquiry.setUserId(memberDetails.getMember().getId());
         inquiry.setCreateAt(LocalDateTime.now());
         inquiry.setUpdateAt(LocalDateTime.now());
         SqlParameterSource param = new BeanPropertySqlParameterSource(inquiry);
@@ -87,7 +87,7 @@ public class JdbcInquiryRepository implements InquiryRepository {
     public List<Inquiry> findAll() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-        Long userId = memberDetails.getUser().getId();
+        Long userId = memberDetails.getMember().getId();
         return jdbcTemplate.query("select * from inquiry where userId = ?", inquiryRowmapper(), userId);
     }
 
