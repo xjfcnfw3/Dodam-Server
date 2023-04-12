@@ -12,7 +12,7 @@ import com.example.dodam.config.CorsConfig;
 import com.example.dodam.config.SecurityConfig;
 import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.config.auth.MemberDetailsService;
-import com.example.dodam.controller.user.AuthController;
+import com.example.dodam.controller.member.AuthController;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.security.TokenProvider;
 import io.jsonwebtoken.Jwts;

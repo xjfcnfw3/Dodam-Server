@@ -1,6 +1,5 @@
-package com.example.dodam.controller.user;
+package com.example.dodam.controller.member;
 
-import com.example.dodam.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
