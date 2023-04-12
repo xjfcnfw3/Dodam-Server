@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import org.springframework.web.multipart.MultipartFile;
 
 @Builder
@@ -35,4 +34,3 @@ public class DiaryRequest {
             .build();
     }
 }
-

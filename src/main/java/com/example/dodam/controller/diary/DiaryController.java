@@ -1,89 +1,73 @@
 package com.example.dodam.controller.diary;
 
-import com.example.dodam.config.auth.MemberDetails;
+import com.example.dodam.config.security.LoginMember;
 import com.example.dodam.domain.diary.dto.DiaryRequest;
-import com.example.dodam.domain.diary.dto.DiaryDetail;
-import com.example.dodam.domain.diary.dto.DiaryDetailImg;
+import com.example.dodam.domain.diary.dto.DiaryDetailsResponse;
 import com.example.dodam.domain.diary.dto.DiaryResponse;
+import com.example.dodam.domain.member.Member;
 import com.example.dodam.service.diary.DiaryService;
-import org.springframework.security.core.Authentication;
+import java.io.IOException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
-
+@Slf4j
 @RestController
+@RequestMapping("/diary")
+@RequiredArgsConstructor
 public class DiaryController {
 
     private final DiaryService diaryService ;
 
-    public DiaryController(DiaryService diaryService) {
-        this.diaryService = diaryService;
+    @GetMapping
+    public List<DiaryResponse> getDiaryList(@LoginMember Member member){
+        return DiaryResponse.listOf(member.getDiaries());
     }
 
-
-
-    // 다이어리 목록 조회
-    @GetMapping("/diary/{id}")
-    public List<DiaryResponse> getDiaryList(@PathVariable Long id){
-        return diaryService.findDiaries(id);
+    @GetMapping("/{id}")
+    public DiaryDetailsResponse getDiaryDetail(@PathVariable Long id){
+        return DiaryDetailsResponse.of(diaryService.findDiary(id));
     }
 
-    // 다이어리 디테일 조회
-    @GetMapping("/diary/detail/{id}")
-    public Optional<DiaryDetailImg> getDiaryDetail(@PathVariable Long id){
-        Optional<DiaryDetail> diary = diaryService.findDiary(id);
-        DiaryDetailImg diaryDetailImg = new DiaryDetailImg();
-        diaryDetailImg.setId(diary.get().getId());
-        diaryDetailImg.setTitle(diary.get().getTitle());
-        diaryDetailImg.setContent(diary.get().getContent());
-        diaryDetailImg.setOneWord(diary.get().getOneWord());
+    @GetMapping(value = "/image/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource downloadDiaryImage(@PathVariable String filename) {
         try {
-            String img =  diaryService.getImageFullPath(diary.get().getImgPath());
-
-            diaryDetailImg.setImg(img);
-
+            return new UrlResource("file:" + diaryService.getImageFullPath(filename));
+        } catch (IOException e) {
+            log.error(e.getLocalizedMessage());
+            throw new IllegalArgumentException("이미지 다운로드를 실패했습니다.");
         }
-        catch (Exception e) {
-            System.out.print("이미지 조회 실패");
-        }
-        return Optional.of(diaryDetailImg);
     }
 
-    //다이어리 등록
-    @PostMapping("/diary")
-    public String addDiary(@RequestBody DiaryRequest request, Authentication authentication){
-        MemberDetails details = (MemberDetails) authentication.getPrincipal();
-        diaryService.addDiary(request, details.getMember());
-        return "성공";
-    }
-    //수정
-    @PutMapping("/diary/{id}")
-    public String putDiary(@PathVariable("id") Long id, @RequestBody DiaryRequest request, Authentication authentication){
-        MemberDetails details = (MemberDetails) authentication.getPrincipal();
-        diaryService.updateDiary(id, request, details.getMember());
-        return "성공";
+    @PostMapping
+    public DiaryDetailsResponse addDiary(@ModelAttribute DiaryRequest request, @LoginMember Member member){
+        return DiaryDetailsResponse.of(diaryService.addDiary(request, member));
     }
 
-    //삭제
-    @DeleteMapping("/diary/{id}")
-    public String deleteDiary(@PathVariable Long id){
-        //해당 id 다이어리 존재 여부 확인
-        diaryService.deleteDiary(id);
-        return "성공";
+    @PatchMapping("/{id}")
+    public void updateDiaryContent(@PathVariable Long id, @RequestBody DiaryRequest request,
+        @LoginMember Member member) {
+        diaryService.updateDiaryContent(id, request, member);
     }
-    // 다이어리 이미지만 추가 (Test용)
-//    //
-//    @PostMapping("/diary/img/")
-//    public String addDiary( @RequestBody MultipartFile img) throws Exception {
-////        Integer id = diaryimg.getId();
-////        MultipartFile img = diaryimg.getImg();
-//        System.out.printf("pass");
-//        diaryService.saveDiaryImag(img);
-//        System.out.printf("pass");
-//
-//        return "성공";
-//    }
 
+    @PatchMapping("/image/{id}")
+    public void updateDiaryImage(@PathVariable Long id, MultipartFile image, @LoginMember Member member) {
+        diaryService.updateDiaryImage(id, image, member);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDiary(@PathVariable Long id, @LoginMember Member member){
+        diaryService.deleteDiary(id, member);
+    }
+
+    @DeleteMapping("image/{id}")
+    public void deleteDiaryImage(@PathVariable Long id, @LoginMember Member member) {
+        diaryService.deleteDiaryImage(id, member);
+    }
 }

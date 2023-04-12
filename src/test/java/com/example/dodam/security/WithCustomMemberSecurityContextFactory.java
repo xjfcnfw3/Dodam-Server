@@ -2,11 +2,13 @@ package com.example.dodam.security;
 
 import com.example.dodam.config.auth.MemberDetails;
 import com.example.dodam.domain.member.Member;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
+@Slf4j
 public class WithCustomMemberSecurityContextFactory implements WithSecurityContextFactory<WithCustomMember> {
 
     @Override
@@ -18,6 +20,8 @@ public class WithCustomMemberSecurityContextFactory implements WithSecurityConte
 
         UsernamePasswordAuthenticationToken token = generateAuthenticationToken(memberDetails);
         context.setAuthentication(token);
+
+        log.info("Mock user={}", token);
 
         return context;
     }
