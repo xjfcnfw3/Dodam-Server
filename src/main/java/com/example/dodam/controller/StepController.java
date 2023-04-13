@@ -52,18 +52,18 @@ public class StepController {
     }
 
     @GetMapping("/select")
-    public Step getStep(Integer stepId){
+    public Step getStep(Long stepId){
         return stepService.getStep(stepId);
     }
 
-    @PutMapping("/select")
-    public @ResponseBody ResponseEntity<Object> change(@RequestBody StepSelectDto dto){
-        stepService.changeStep(dto);
+    @PutMapping("/select/{id}")
+    public @ResponseBody ResponseEntity<Object> change(@PathVariable Long id, @RequestBody StepRequest dto){
+        stepService.changeStep(id, dto);
         return new ResponseEntity<>(Map.of("result", "단계 수정 성공"), HttpStatus.OK);
     }
 
     @DeleteMapping("/select/{stepId}")
-    public @ResponseBody ResponseEntity<Object> delete(@PathVariable Integer stepId){
+    public @ResponseBody ResponseEntity<Object> delete(@PathVariable Long stepId){
         stepService.delete(stepId);
         return new ResponseEntity<>(Map.of("result", "단계 삭제 성공"), HttpStatus.OK);
     }

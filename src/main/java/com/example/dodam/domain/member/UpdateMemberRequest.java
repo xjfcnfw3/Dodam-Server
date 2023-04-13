@@ -1,7 +1,6 @@
 package com.example.dodam.domain.member;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class UpdateMemberRequest {
     private String imgPath;
     private MultipartFile profileImage;
     private LocalDate birthDate;
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     public Member toUser() {
         return Member.builder()

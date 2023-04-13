@@ -9,13 +9,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface StepRepository extends JpaRepository<Step, Long> {
-    Step findByStepId(int stepId);
+    List<Step> findAllByMemberId(Long memberId);
 
-    List<Step> findAllByUserId(Long userId);
+    Step findByStepOrderAndMemberId(int order, Long memberId);
 
-    Step findByStepOrderAndUserId(int order, Long userId);
-
-    Long countStepByUserId(Long userId);
+    Long countStepByMemberId(Long memberId);
 
     @Modifying(clearAutomatically = true)
     @Query("update Step s set s.stepOrder = s.stepOrder - 1 " +

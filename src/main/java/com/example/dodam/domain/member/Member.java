@@ -1,9 +1,9 @@
 package com.example.dodam.domain.member;
 
+import com.example.dodam.domain.Step;
 import com.example.dodam.domain.common.BaseTimeEntity;
 import com.example.dodam.domain.diary.Diary;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -53,12 +53,18 @@ public class Member extends BaseTimeEntity {
 
     private LocalDate birthDate;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Builder.Default
     @OrderBy("date")
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "member")
     private List<Diary> diaries = new ArrayList<>();
+
+    @Builder.Default
+    @OrderBy("stepOrder")
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "member")
+    private List<Step> steps = new ArrayList<>();
+
 
     public void update(Member member) {
         if (member.password != null) {
@@ -80,5 +86,13 @@ public class Member extends BaseTimeEntity {
 
     public void deleteDiary(Diary diary) {
         this.diaries.remove(diary);
+    }
+
+    public void addStep(Step step) {
+        this.steps.add(step);
+    }
+
+    public void deleteStep(Step step) {
+        this.steps.remove(step);
     }
 }

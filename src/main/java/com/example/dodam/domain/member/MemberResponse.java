@@ -2,7 +2,6 @@ package com.example.dodam.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class MemberResponse {
     private String email;
     private String phone;
     private String nickname;
-    private LocalDateTime startDate;
+    private LocalDate startDate;
     private LocalDate birthDate;
     private String imgPath;
 

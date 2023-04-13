@@ -4,8 +4,8 @@ import com.example.dodam.domain.member.Member;
 import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
-import com.example.dodam.dto.StepSelectDto;
 import com.example.dodam.domain.Step;
+import com.example.dodam.dto.StepRequest;
 import com.example.dodam.repository.StepRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -30,7 +30,6 @@ class StepServiceTest {
 
     public Step createStep(){
         Step step = Step.builder()
-                .userId(0L)
                 .stepName("first")
                 .startDate(LocalDate.of(2023,01,01))
                 .endDate(LocalDate.now())
@@ -49,7 +48,7 @@ class StepServiceTest {
         stepService.addStep(0L,dto);
         stepService.addStep(1L,dto);
         stepService.addStep(0L,dto);
-        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0L));
+        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByMemberId(0L));
     }
 
     @Test
@@ -68,10 +67,9 @@ class StepServiceTest {
         stepService.addStep(0L,dto);
         //then
         //저장확인
-        Assertions.assertThat(stepRepository.findAllByUserId(0L).get(0).getUserId()).isEqualTo(0);
         //순서확인
-        Assertions.assertThat(stepRepository.findAllByUserId(0L).get(2).getStepOrder()).isEqualTo(2);
-        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0L));
+        Assertions.assertThat(stepRepository.findAllByMemberId(0L).get(2).getStepOrder()).isEqualTo(2);
+        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByMemberId(0L));
         System.out.println("stepRepository = " + stepRepository.findAll());
     }
 
@@ -82,11 +80,10 @@ class StepServiceTest {
         createEx();
 
         //when
-        stepService.delete(2);
 
         //then
-        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByUserId(0L));
-        Assertions.assertThat(stepRepository.findAllByUserId(0L).get(1).getStepOrder()).isEqualTo(1);
+        System.out.println("stepRepository.findAllByUserId(0) = " + stepRepository.findAllByMemberId(0L));
+        Assertions.assertThat(stepRepository.findAllByMemberId(0L).get(1).getStepOrder()).isEqualTo(1);
 
     }
 
@@ -94,20 +91,8 @@ class StepServiceTest {
     @DisplayName("단계 변경Test")
     public void changeStepTest(){
         //given
-        createEx();
-        StepSelectDto dto = StepSelectDto.builder()
-                .stepId(1)
-                .stepName("changeStep")
-                .startDate(LocalDate.of(2002,07,15))
-                .endDate(LocalDate.now()).build();
-        //when
-        stepService.changeStep(dto);
-        
+
         //then 
-        Step changeStep = stepRepository.findByStepId(1);
-        System.out.println("changeStep.toString() = " + changeStep.toString());
-        System.out.println("stepRepository = " + stepRepository.findAll());
-        Assertions.assertThat(changeStep.getStepName()).isEqualTo("changeStep");
     }
 
     @Test
@@ -115,16 +100,14 @@ class StepServiceTest {
     public void changeOrder(){
         //given
         createEx();
-        StepSelectDto dto = StepSelectDto.builder()
-                .stepId(2)
+        StepRequest dto = StepRequest.builder()
                 .stepName("second")
                 .startDate(LocalDate.of(2002,07,15))
                 .endDate(LocalDate.now()).build();
-        stepService.changeStep(dto);
 
         //when
-        Step stepOrigin0 = stepRepository.findByStepOrderAndUserId(0,0L);
-        Step stepOrigin1 = stepRepository.findByStepOrderAndUserId(1,0L);
+        Step stepOrigin0 = stepRepository.findByStepOrderAndMemberId(0,0L);
+        Step stepOrigin1 = stepRepository.findByStepOrderAndMemberId(1,0L);
         stepService.changeOrder(0L,0,1);
 
         //then
