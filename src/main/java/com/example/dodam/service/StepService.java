@@ -4,13 +4,14 @@ import com.example.dodam.domain.member.Member;
 import com.example.dodam.dto.StepAddDto;
 import com.example.dodam.dto.StepEnrollDto;
 import com.example.dodam.dto.StepMainDto;
-import com.example.dodam.dto.StepSelectDto;
 import com.example.dodam.domain.Step;
+import com.example.dodam.dto.StepRequest;
 import com.example.dodam.repository.StepRepository;
 import com.example.dodam.repository.member.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class StepService {
         else
             dDay = 0;
 
-        List<Step> stepAll = stepRepository.findAllByUserId(member.getId());
+        List<Step> stepAll = stepRepository.findAllByMemberId(member.getId());
         List<String> nowStep = new ArrayList<>();
 
         for (Step step : stepAll) {
@@ -56,7 +57,7 @@ public class StepService {
         LocalDate startDate = null;
         if(member.getStartDate()!= null)
             startDate = LocalDate.from(member.getStartDate());
-        List<Step> stepAll = stepRepository.findAllByUserId(member.getId());
+        List<Step> stepAll = stepRepository.findAllByMemberId(member.getId());
 
         return StepEnrollDto.builder()
                 .startDate(startDate)
@@ -65,37 +66,37 @@ public class StepService {
     }
 
     public void changeOrder(Long userId, int firstOrder, int secondOrder) {
-        Step step1 = stepRepository.findByStepOrderAndUserId(firstOrder,userId);
-        Step step2 = stepRepository.findByStepOrderAndUserId(secondOrder,userId);
+        Step step1 = stepRepository.findByStepOrderAndMemberId(firstOrder,userId);
+        Step step2 = stepRepository.findByStepOrderAndMemberId(secondOrder,userId);
 
         step1.changeOrder(secondOrder);
         step2.changeOrder(firstOrder);
     }
 
-    public Step getStep(int stepId) {
-        return stepRepository.findByStepId(stepId);
+    public Step getStep(Long stepId) {
+        return stepRepository.findById(stepId).orElseThrow(EntityNotFoundException::new);
     }
 
-    public void changeStep(StepSelectDto dto) {
-        Step step = stepRepository.findByStepId(dto.getStepId());
-        step.changeStep(dto.getStepName(),dto.getStartDate(),dto.getEndDate());
+    public void changeStep(Long id, StepRequest request) {
+        Step step = stepRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        step.update(request.toStep());
     }
 
-    public void delete(int stepId) {
-        Step step = stepRepository.findByStepId(stepId);
+    public void delete(Long stepId) {
+        Step step = stepRepository.findById(stepId).orElseThrow(EntityNotFoundException::new);
         int stepOrder = step.getStepOrder();
         stepRepository.delete(step);
         stepRepository.updateOrder(stepOrder);
     }
 
-    public int addStep(Long userId, StepAddDto dto) {
-        Long order = stepRepository.countStepByUserId(userId);
+    public Long addStep(Long userId, StepAddDto dto) {
+        Long order = stepRepository.countStepByMemberId(userId);
         Member member = memberRepository.findById(userId).orElseThrow(NoSuchElementException::new);
         if (member.getStartDate() == null) {
             member.setStartDate(LocalDateTime.now());
         }
+
         Step step = Step.builder()
-                .userId(userId)
                 .stepName(dto.getStepName())
                 .startDate(dto.getStartDate())
                 .endDate(dto.getEndDate())

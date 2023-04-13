@@ -2,6 +2,7 @@ package com.example.dodam.domain.member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.dodam.domain.Step;
 import com.example.dodam.domain.diary.Diary;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,8 @@ import org.junit.jupiter.api.Test;
 class MemberTest {
 
     private Member member;
-
     private Diary diary;
+    private Step step;
 
     @BeforeEach
     void init() {
@@ -29,6 +30,10 @@ class MemberTest {
         diary = Diary.builder()
             .title("안녕")
             .content("테스트")
+            .build();
+
+        step = Step.builder()
+            .stepName("test")
             .build();
     }
 
@@ -47,5 +52,22 @@ class MemberTest {
         member.deleteDiary(diary);
 
         assertThat(member.getDiaries()).isEmpty();
+    }
+
+    @DisplayName("단계를 추가한다.")
+    @Test
+    void addStep() {
+        member.addStep(step);
+
+        assertThat(member.getSteps()).containsExactly(step);
+    }
+
+    @DisplayName("단계를 삭제한다.")
+    @Test
+    void deleteStep() {
+        member.addStep(step);
+        member.deleteStep(step);
+
+        assertThat(member.getSteps()).isEmpty();
     }
 }

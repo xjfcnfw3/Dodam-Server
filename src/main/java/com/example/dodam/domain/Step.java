@@ -1,5 +1,7 @@
 package com.example.dodam.domain;
 
+import com.example.dodam.domain.common.BaseTimeEntity;
+import com.example.dodam.domain.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,21 +9,20 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@ToString
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "step")
-public class Step {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class Step extends BaseTimeEntity {
+
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int stepId;
+    private Long stepId;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
-    @Column
     private String stepName;
 
     @Column(nullable = false)
@@ -38,10 +39,20 @@ public class Step {
         this.stepOrder = newOrder;
     }
 
-    public void changeStep(String name, LocalDate startDate, LocalDate endDate){
-        this.stepName = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public void update(Step step) {
+        if (step.getStepName() != null) {
+            this.stepName = step.getStepName();
+        }
+        if (step.getStartDate() != null) {
+           this.startDate = step.getStartDate();
+        }
+        if (step.getEndDate() != null) {
+            this.endDate = step.getEndDate();
+        }
     }
 
+    public void associateMember(Member member) {
+        this.member = member;
+        member.addStep(this);
+    }
 }
