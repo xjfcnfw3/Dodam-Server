@@ -1,21 +1,14 @@
 package com.example.dodam.config;
 
-
-import com.example.dodam.config.auth.AuthProperties;
 import com.example.dodam.config.auth.MemberDetailsService;
-import com.example.dodam.config.jwt.JwtAuthenticationFilter;
-import com.example.dodam.config.jwt.JwtAuthorizationFilter;
 import com.example.dodam.config.jwt.JwtFilter;
-import com.example.dodam.repository.member.MemberRepository;
 import com.example.dodam.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -65,9 +58,3 @@ public class SecurityConfig {
 		return http.build();
 	}
 }
-
-
-
-
-
-
