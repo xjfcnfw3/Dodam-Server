@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import com.example.dodam.domain.member.Member;
 import com.example.dodam.domain.member.UpdateMemberRequest;
 import com.example.dodam.repository.member.MemberRepository;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ class MemberServiceTest {
         UpdateMemberRequest request = UpdateMemberRequest.builder()
             .password("87654321")
             .nickname("update")
-            .startDate(LocalDateTime.now())
+            .startDate(LocalDate.now())
             .build();
         memberService.update(member.getEmail(), request);
 

@@ -4,7 +4,6 @@ import com.example.dodam.domain.Step;
 import com.example.dodam.domain.common.BaseTimeEntity;
 import com.example.dodam.domain.diary.Diary;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -54,7 +53,7 @@ public class Member extends BaseTimeEntity {
 
     private LocalDate birthDate;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Builder.Default
     @OrderBy("date")

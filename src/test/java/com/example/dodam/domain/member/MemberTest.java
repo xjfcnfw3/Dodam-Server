@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.dodam.domain.Step;
 import com.example.dodam.domain.diary.Diary;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class MemberTest {
             .role("ROLE_USER")
             .email("hello@naver.com")
             .phone("010-1234-5678")
-            .startDate(LocalDateTime.now())
+            .startDate(LocalDate.now())
             .build();
 
         diary = Diary.builder()
