@@ -13,7 +13,7 @@ public interface StepRepository extends JpaRepository<Step, Long> {
 
     Step findByStepOrderAndMemberId(int order, Long memberId);
 
-    Long countStepByMemberId(Long memberId);
+    boolean existsByMemberIdAndStepOrder(Long memberId, Integer order);
 
     @Modifying(clearAutomatically = true)
     @Query("update Step s set s.stepOrder = s.stepOrder - 1 " +
