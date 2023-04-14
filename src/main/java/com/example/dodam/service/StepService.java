@@ -32,8 +32,8 @@ public class StepService {
         int dDay = getDecimalDay(member);
         List<Step> restSteps = getRestStep(member);
         return MainStepResponse.builder()
-                .allStep(member.getSteps())
-                .restStep(restSteps)
+                .allStep(StepResponse.listOf(member.getSteps()))
+                .restStep(StepResponse.listOf(restSteps))
                 .dDay(dDay)
                 .memberNickName(member.getNickname()).build();
     }

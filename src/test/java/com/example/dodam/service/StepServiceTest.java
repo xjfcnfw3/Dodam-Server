@@ -165,12 +165,12 @@ class StepServiceTest {
     @DisplayName("사용자의 단계에 대한 전체젝인 정보를 조회")
     @Test
     void getMainStepTest(){
-        Step step1 = Step.builder()
-            .stepId(1L).stepOrder(0).stepName("test1").startDate(LocalDate.now().plusDays(10))
-            .endDate(LocalDate.now().plusDays(11)).build();
-        Step step2 = Step.builder().stepId(2L).stepOrder(1)
+        Step step1 = Step.builder().stepId(1L).stepOrder(1)
             .stepName("test2").startDate(LocalDate.now().minusDays(1))
             .endDate(LocalDate.now().plusDays(3)).build();
+        Step step2 = Step.builder().stepId(2L).stepOrder(0).stepName("test1")
+            .startDate(LocalDate.now().plusDays(10))
+            .endDate(LocalDate.now().plusDays(11)).build();
         member.addStep(step1);
         member.addStep(step2);
         member.setStartDate(step2.getStartDate());
