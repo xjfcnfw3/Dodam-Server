@@ -32,11 +32,12 @@ public class Step extends BaseTimeEntity {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private int stepOrder;
+    private Integer stepOrder;
 
-
-    public void changeOrder(int newOrder){
-        this.stepOrder = newOrder;
+    public void changeOrder(Integer newOrder){
+        if (newOrder != null) {
+            this.stepOrder = newOrder;
+        }
     }
 
     public void update(Step step) {
