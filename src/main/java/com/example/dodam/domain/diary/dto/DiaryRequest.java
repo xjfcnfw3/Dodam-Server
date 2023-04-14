@@ -9,14 +9,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DiaryRequest {
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private String title;
     private MultipartFile diaryImage;
