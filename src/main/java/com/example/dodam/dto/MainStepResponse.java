@@ -10,9 +10,9 @@ import java.util.List;
 @Builder
 @ToString
 @Getter
-public class StepMainDto {
+public class MainStepResponse {
     private String memberNickName;
     private int dDay;
-    private List<String> nowStep;
+    private List<Step> restStep;
     private List<Step> allStep;
 }
