@@ -173,7 +173,7 @@ class StepServiceTest {
             .endDate(LocalDate.now().plusDays(11)).build();
         member.addStep(step1);
         member.addStep(step2);
-        member.setStartDate(step2.getStartDate());
+        member.setStartDate(step1.getStartDate());
 
         MainStepResponse response = stepService.getMainStep(member);
 
