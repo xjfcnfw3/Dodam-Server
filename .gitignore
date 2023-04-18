@@ -38,3 +38,4 @@ application-secret.properties
 .vscode/
 /src/main/resources/application-secret.yml
 application-test.yml
+sonarqube.properties
