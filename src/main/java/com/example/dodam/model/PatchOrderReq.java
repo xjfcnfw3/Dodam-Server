@@ -19,7 +19,7 @@ public class PatchOrderReq {  //수정에 사용되는 모든 변수들
     private  String startDate;    //시작일시
     private  String endDate;      //종료일시
     private  int templateNo;      //템플릿번호
-    public   String isDeleted;    //삭제여부
+    private  String isDeleted;    //삭제여부
     private  String deletedTime;  //삭제일시
 
 }
