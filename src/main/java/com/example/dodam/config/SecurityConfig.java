@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,6 +29,10 @@ public class SecurityConfig {
 		return new JwtFilter(tokenProvider, memberDetailsService);
 	}
 
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -42,18 +47,12 @@ public class SecurityConfig {
 			.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
 			// 권한 관리
 			.authorizeRequests()
-			.antMatchers("/diary/**")
-			.access("hasRole('ROLE_USER')")
-			.antMatchers("/orders/**")
-			.access("hasRole('ROLE_USER')")
-			.antMatchers("/order-details/**")
-			.access("hasRole('ROLE_USER')")
-			.antMatchers("/inquiry/**")
-			.access("hasRole('ROLE_USER')")
-			.antMatchers("/inquiries/**")
-			.access("hasRole('ROLE_USER')")
-			.antMatchers("/user")
-			.access("hasRole('ROLE_USER')")
+			.antMatchers("/diary/**").hasAnyRole("ROLE_USER")
+			.antMatchers("/orders/**").hasAnyRole("ROLE_USER")
+			.antMatchers("/order-details/**").hasAnyRole("ROLE_USER")
+			.antMatchers("/inquiry/**").hasAnyRole("ROLE_USER")
+			.antMatchers("/inquiries/**").hasAnyRole("ROLE_USER")
+			.antMatchers("/user").hasAnyRole("ROLE_USER")
 			.anyRequest().permitAll();	//다른 요청은 권한 허용
 		return http.build();
 	}
