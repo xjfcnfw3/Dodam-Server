@@ -1,7 +1,7 @@
 package com.example.dodam.controller.diaryOrder;
 import com.example.dodam.service.diaryOrder.OrderProvider;
 import com.example.dodam.service.diaryOrder.OrderService;
-import com.example.dodam.config.BaseResponse;
+import com.example.dodam.common.exception.BaseResponse;
 import com.example.dodam.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
